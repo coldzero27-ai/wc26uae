@@ -712,11 +712,20 @@ function flash(msg){
   n.textContent=msg; n.style.opacity="1";
   clearTimeout(n._t); n._t=setTimeout(()=>n.style.opacity="0",1600);
 }
+/* ============ AUTO-LOAD + SILENT REFRESH (every 3h) ============ */
+const REFRESH_HOURS = 3;
+function loadResults(){
+  fetch("results.json?t=" + Date.now())          // cache-buster: force fresh copy
+    .then(r => r.ok ? r.json() : null)
+    .then(j => { if(j) applyState(j); })
+    .catch(()=>{});
+}
 (function(){
   let loaded=false;
   try{ const s=localStorage.getItem(STORE_KEY); if(s){ applyState(JSON.parse(s)); loaded=true; } }catch(e){}
-  if(!loaded){ fetch("results.json").then(r=>r.ok?r.json():null).then(j=>{ if(j) applyState(j); }).catch(()=>{}); }
+  if(!loaded) loadResults();   // visitors pull the published results on open
 })();
+setInterval(loadResults, REFRESH_HOURS * 3600 * 1000);   // re-check every 3 hours, no page reload
 </script>
 </body>
 </html>
