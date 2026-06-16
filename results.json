@@ -123,5 +123,11 @@
   },
   "picks": {},
   "kscores": {},
-  "finalDate": "SUN, JULY 19 — 11:00 PM"
+  "finalDate": "SUN, JULY 19 — 11:00 PM",
+  "marked": [
+    79,
+    80,
+    85,
+    86
+  ]
 }
