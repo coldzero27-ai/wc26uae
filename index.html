@@ -136,17 +136,21 @@
 
   /* ===== today's-match highlight ===== */
   .gm.today .gm-row .tpill{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
-  .gm.today{border-radius:10px;padding:5px 5px 6px;margin:5px -5px 6px;
+  .gm.today{position:relative;border-radius:10px;padding:5px 5px 6px;margin:5px -5px 6px;
     box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
     background:rgba(233,194,87,.08)}
   .gm.today .gm-date{color:var(--gold);margin-bottom:3px}
-  .ko.today{border-radius:10px;padding:5px 5px 6px;margin:5px 0 6px;
+  .ko.today{position:relative;border-radius:10px;padding:5px 5px 6px;margin:5px 0 6px;
     box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
     background:rgba(233,194,87,.08)}
   .ko.today .ko-when{color:var(--gold)}
   .today-pulse{animation:todayPulse 2.4s ease-in-out infinite}
   @keyframes todayPulse{0%,100%{box-shadow:0 0 0 2px var(--gold),0 0 12px 2px rgba(233,194,87,.45)}
     50%{box-shadow:0 0 0 2px var(--gold),0 0 22px 5px rgba(233,194,87,.75)}}
+  /* corner label tag (NEXT UP / TONIGHT / TOMORROW) */
+  .today-tag{position:absolute;top:-9px;left:10px;z-index:3;
+    background:var(--gold);color:#1A1404;font-weight:800;font-size:9px;letter-spacing:.5px;
+    padding:2px 8px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.6);white-space:nowrap;text-transform:uppercase}
 
   /* ===== country picker ===== */
   .picker-backdrop{position:fixed;inset:0;background:rgba(3,5,12,.72);z-index:100;display:none;align-items:center;justify-content:center}
@@ -689,8 +693,11 @@ function collectState(){
     const sc=p.querySelector(".kscore"); if(sc&&sc.textContent.trim()) st.kscores["k"+i]=sc.textContent.trim();
   });
   const fb=document.querySelector(".final-banner .d"); if(fb) st.finalDate=fb.textContent;
-  st.marked = [];
-  document.querySelectorAll(".gm, .ko").forEach((u,i)=>{ if(u.classList.contains("today")) st.marked.push(i); });
+  st.marked = {};
+  document.querySelectorAll(".gm, .ko").forEach((u,i)=>{
+    const lbl = currentLabel(u);
+    if(lbl!==null) st.marked[i] = lbl;   // "" = plain gold, or the word
+  });
   return st;
 }
 function applyState(st){
@@ -711,10 +718,17 @@ function applyState(st){
   document.querySelectorAll(".ko").forEach(applyKnockoutScores);
   if(st.finalDate){ const fb=document.querySelector(".final-banner .d"); if(fb) fb.textContent=st.finalDate; }
   const allUnits=document.querySelectorAll(".gm, .ko");
-  allUnits.forEach(u=>{ u.classList.remove("today","today-pulse"); });
-  if(Array.isArray(st.marked)) st.marked.forEach(idx=>{
-    const u=allUnits[idx]; if(u){ u.classList.add("today","today-pulse"); }
-  });
+  allUnits.forEach(u=>{ setUnitLabel(u, null); });
+  if(st.marked){
+    if(Array.isArray(st.marked)){
+      // backward-compat: old format was list of indices (plain gold)
+      st.marked.forEach(idx=>{ const u=allUnits[idx]; if(u) setUnitLabel(u, ""); });
+    } else {
+      Object.keys(st.marked).forEach(idx=>{
+        const u=allUnits[+idx]; if(u) setUnitLabel(u, st.marked[idx]);
+      });
+    }
+  }
 }
 document.getElementById("btnSave").onclick = ()=>{
   try{ localStorage.setItem(STORE_KEY, JSON.stringify(collectState())); flash("Saved to this device"); }
@@ -747,17 +761,44 @@ btnToday.onclick = ()=>{
   markMode = !markMode;
   btnToday.classList.toggle("active", markMode);
   document.body.style.cursor = markMode ? "crosshair" : "";
-  flash(markMode ? "Mark mode ON — click games to highlight" : "Mark mode off");
+  flash(markMode ? "Mark mode ON — click a game to cycle: NEXT UP → TONIGHT → TOMORROW → gold → off" : "Mark mode off");
 };
-/* a match unit is a .gm (group) or a .ko (knockout). Toggle .today on click while in mark mode. */
+/* click cycles a match through label states. "" = plain gold, null/removed = off */
+const LABEL_CYCLE = ["NEXT UP","TONIGHT","TOMORROW",""]; // then off
+function setUnitLabel(unit, label){
+  // label: a string (incl "" for plain gold), or null to clear highlight
+  unit.querySelectorAll(":scope > .today-tag").forEach(t=>t.remove());
+  if(label===null){
+    unit.classList.remove("today","today-pulse");
+    return;
+  }
+  unit.classList.add("today","today-pulse");
+  if(label){
+    const tag=document.createElement("span");
+    tag.className="today-tag";
+    tag.textContent=label;
+    unit.insertBefore(tag, unit.firstChild);
+  }
+}
+function currentLabel(unit){
+  if(!unit.classList.contains("today")) return null;     // off
+  const t=unit.querySelector(":scope > .today-tag");
+  return t ? t.textContent : "";                          // "" = plain gold
+}
+function cycleUnit(unit){
+  const cur = currentLabel(unit);
+  if(cur===null){ setUnitLabel(unit, LABEL_CYCLE[0]); return; }   // off -> first label
+  const i = LABEL_CYCLE.indexOf(cur);
+  if(i===-1 || i===LABEL_CYCLE.length-1){ setUnitLabel(unit, null); } // after plain gold -> off
+  else { setUnitLabel(unit, LABEL_CYCLE[i+1]); }
+}
 document.addEventListener("click", e=>{
   if(!markMode) return;
   if(e.target.closest(".kscore") || e.target.closest(".gscore")) return; // don't hijack score edits
   const unit = e.target.closest(".gm") || e.target.closest(".ko");
   if(unit){
     e.preventDefault();
-    unit.classList.toggle("today");
-    unit.classList.toggle("today-pulse", unit.classList.contains("today"));
+    cycleUnit(unit);
   }
 }, true);
 
