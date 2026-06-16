@@ -103,7 +103,6 @@
   .kpill.empty{border-style:dashed;border-color:rgba(0,0,0,.35);background:#FFFFFF}
   .kpill.win{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
   .kpill.lose{opacity:.5}
-  .kpill .hint{color:#9AA2B8;font-weight:700;font-size:8.5px;letter-spacing:.5px}
   .kscore{width:20px;height:15px;border-radius:4px;background:rgba(233,194,87,.18);border:1px solid rgba(233,194,87,.55);
     display:flex;align-items:center;justify-content:center;color:#8a6b16;font-weight:800;font-size:10px;cursor:text;flex:none}
   .kscore:empty::before{content:"–";color:rgba(180,150,60,.6)}
@@ -135,6 +134,20 @@
   [contenteditable="true"]:hover{background:rgba(233,194,87,.10)}
   [contenteditable="true"]:focus{outline:1px solid var(--gold);background:rgba(233,194,87,.14)}
 
+  /* ===== today's-match highlight ===== */
+  .gm.today .gm-row .tpill{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
+  .gm.today{border-radius:10px;padding:5px 5px 6px;margin:5px -5px 6px;
+    box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
+    background:rgba(233,194,87,.08)}
+  .gm.today .gm-date{color:var(--gold);margin-bottom:3px}
+  .ko.today{border-radius:10px;padding:5px 5px 6px;margin:5px 0 6px;
+    box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
+    background:rgba(233,194,87,.08)}
+  .ko.today .ko-when{color:var(--gold)}
+  .today-pulse{animation:todayPulse 2.4s ease-in-out infinite}
+  @keyframes todayPulse{0%,100%{box-shadow:0 0 0 2px var(--gold),0 0 12px 2px rgba(233,194,87,.45)}
+    50%{box-shadow:0 0 0 2px var(--gold),0 0 22px 5px rgba(233,194,87,.75)}}
+
   /* ===== country picker ===== */
   .picker-backdrop{position:fixed;inset:0;background:rgba(3,5,12,.72);z-index:100;display:none;align-items:center;justify-content:center}
   .picker-backdrop.open{display:flex}
@@ -161,6 +174,7 @@
 <div class="toolbar">
   <button id="btnFit" class="active">Fit width</button>
   <button id="btnPresent">Present ⛶</button>
+  <button id="btnToday">★ Mark games</button>
   <button id="btnSave">Save</button>
   <button id="btnExport">Export</button>
   <button id="btnImport">Import</button>
@@ -179,6 +193,13 @@
           <h1>2026 WORLD CUP</h1>
           <h2>MATCH SCHEDULE</h2>
           <div class="tz">ALL TIMES UAE &nbsp;·&nbsp; GST (UTC+4)</div>
+          <div id="goldLegend" style="display:inline-flex;align-items:center;gap:8px;margin-top:6px;margin-left:10px;
+            border:1px solid rgba(233,194,87,.7);background:rgba(8,12,26,.55);padding:2px 14px;border-radius:4px;
+            font-weight:800;font-size:11px;letter-spacing:2px;color:var(--gold);vertical-align:middle">
+            <span style="width:14px;height:14px;border-radius:3px;background:rgba(233,194,87,.2);
+              box-shadow:0 0 0 2px var(--gold),0 0 8px 1px rgba(233,194,87,.6);display:inline-block"></span>
+            TODAY / UPCOMING GAMES
+          </div>
         </div>
 
         <div class="layout">
@@ -417,7 +438,7 @@ function groupBlock(letter, matches, side){
     : `<div class="group right">${matchesEl}${letterEl}</div>`;
 }
 function slot(tag){
-  return `<div class="kpill empty" data-tag="${tag}"><span class="ktag">${tag}</span><span class="kname"><span class="hint">tap to pick</span></span><span class="kscore" contenteditable="true" spellcheck="false"></span></div>`;
+  return `<div class="kpill empty" data-tag="${tag}"><span class="ktag">${tag}</span><span class="kname"></span><span class="kscore" contenteditable="true" spellcheck="false"></span></div>`;
 }
 function koCard(m){
   return `<div class="ko" id="m${m[0]}">
@@ -481,7 +502,7 @@ document.addEventListener("click", e=>{
 document.getElementById("pickerClear").addEventListener("click", ()=>{
   if(activeSlot){
     activeSlot.classList.add("empty");
-    activeSlot.querySelector(".kname").innerHTML = `<span class="hint">tap to pick</span>`;
+    activeSlot.querySelector(".kname").innerHTML = ``;
   }
   backdrop.classList.remove("open"); activeSlot=null;
 });
@@ -668,6 +689,8 @@ function collectState(){
     const sc=p.querySelector(".kscore"); if(sc&&sc.textContent.trim()) st.kscores["k"+i]=sc.textContent.trim();
   });
   const fb=document.querySelector(".final-banner .d"); if(fb) st.finalDate=fb.textContent;
+  st.marked = [];
+  document.querySelectorAll(".gm, .ko").forEach((u,i)=>{ if(u.classList.contains("today")) st.marked.push(i); });
   return st;
 }
 function applyState(st){
@@ -687,6 +710,11 @@ function applyState(st){
   });
   document.querySelectorAll(".ko").forEach(applyKnockoutScores);
   if(st.finalDate){ const fb=document.querySelector(".final-banner .d"); if(fb) fb.textContent=st.finalDate; }
+  const allUnits=document.querySelectorAll(".gm, .ko");
+  allUnits.forEach(u=>{ u.classList.remove("today","today-pulse"); });
+  if(Array.isArray(st.marked)) st.marked.forEach(idx=>{
+    const u=allUnits[idx]; if(u){ u.classList.add("today","today-pulse"); }
+  });
 }
 document.getElementById("btnSave").onclick = ()=>{
   try{ localStorage.setItem(STORE_KEY, JSON.stringify(collectState())); flash("Saved to this device"); }
@@ -712,8 +740,29 @@ function flash(msg){
   n.textContent=msg; n.style.opacity="1";
   clearTimeout(n._t); n._t=setTimeout(()=>n.style.opacity="0",1600);
 }
-/* ============ AUTO-LOAD + SILENT REFRESH (every 3h) ============ */
-const REFRESH_HOURS = 3;
+/* ============ MARK TODAY'S / UPCOMING GAMES (manual click) ============ */
+let markMode = false;
+const btnToday = document.getElementById("btnToday");
+btnToday.onclick = ()=>{
+  markMode = !markMode;
+  btnToday.classList.toggle("active", markMode);
+  document.body.style.cursor = markMode ? "crosshair" : "";
+  flash(markMode ? "Mark mode ON — click games to highlight" : "Mark mode off");
+};
+/* a match unit is a .gm (group) or a .ko (knockout). Toggle .today on click while in mark mode. */
+document.addEventListener("click", e=>{
+  if(!markMode) return;
+  if(e.target.closest(".kscore") || e.target.closest(".gscore")) return; // don't hijack score edits
+  const unit = e.target.closest(".gm") || e.target.closest(".ko");
+  if(unit){
+    e.preventDefault();
+    unit.classList.toggle("today");
+    unit.classList.toggle("today-pulse", unit.classList.contains("today"));
+  }
+}, true);
+
+/* ============ AUTO-LOAD + SILENT REFRESH (every 30 min) ============ */
+const REFRESH_MINUTES = 30;
 function loadResults(){
   fetch("results.json?t=" + Date.now())          // cache-buster: force fresh copy
     .then(r => r.ok ? r.json() : null)
@@ -725,7 +774,7 @@ function loadResults(){
   try{ const s=localStorage.getItem(STORE_KEY); if(s){ applyState(JSON.parse(s)); loaded=true; } }catch(e){}
   if(!loaded) loadResults();   // visitors pull the published results on open
 })();
-setInterval(loadResults, REFRESH_HOURS * 3600 * 1000);   // re-check every 3 hours, no page reload
+setInterval(loadResults, REFRESH_MINUTES * 60 * 1000);   // re-check every 30 min, no page reload
 </script>
 </body>
 </html>
