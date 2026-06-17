@@ -70,7 +70,7 @@
   .tpill.away{justify-content:flex-end}
   .tpill.win{box-shadow:0 0 0 2.5px #2ec27a,0 1px 3px rgba(0,0,0,.45)}
   .tpill.lose{box-shadow:0 0 0 2.5px #e8485f,0 1px 3px rgba(0,0,0,.45);opacity:.88}
-  .tpill.draw{box-shadow:0 0 0 2.5px #ecc94b,0 1px 3px rgba(0,0,0,.45)}
+  .tpill.draw{box-shadow:0 0 0 2.5px #3b82f6,0 1px 3px rgba(0,0,0,.45)}
   .flchip{height:11px;width:16px;border-radius:2px;object-fit:cover;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
   .gscore{height:18px;border-radius:5px;background:rgba(233,194,87,.18);border:1px solid rgba(233,194,87,.55);
     display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;font-size:10px;
@@ -80,7 +80,7 @@
   .gscore:focus{outline:1px solid var(--gold);background:rgba(233,194,87,.34)}
   .gscore.scWin{background:#2ec27a;border-color:#2ec27a;color:#06301c}
   .gscore.scLose{background:#e8485f;border-color:#e8485f;color:#4a0d15}
-  .gscore.scDraw{background:#ecc94b;border-color:#ecc94b;color:#5b4a07}
+  .gscore.scDraw{background:#3b82f6;border-color:#3b82f6;color:#fff}
 
   /* ===== bracket ===== */
   .bracket{position:relative;display:flex;flex-direction:column;min-height:0}
@@ -107,7 +107,7 @@
   .kpill.empty{border-style:dashed;border-color:rgba(0,0,0,.35);background:#FFFFFF}
   .kpill.win{box-shadow:0 0 0 2.5px #2ec27a,0 1px 3px rgba(0,0,0,.45)}
   .kpill.lose{box-shadow:0 0 0 2.5px #e8485f,0 1px 3px rgba(0,0,0,.45);opacity:.88}
-  .kpill.draw{box-shadow:0 0 0 2.5px #ecc94b,0 1px 3px rgba(0,0,0,.45)}
+  .kpill.draw{box-shadow:0 0 0 2.5px #3b82f6,0 1px 3px rgba(0,0,0,.45)}
   .kscore{width:20px;height:15px;border-radius:4px;background:rgba(233,194,87,.18);border:1px solid rgba(233,194,87,.55);
     display:flex;align-items:center;justify-content:center;color:#8a6b16;font-weight:800;font-size:10px;cursor:text;flex:none}
   .kscore:empty::before{content:"–";color:rgba(180,150,60,.6)}
@@ -115,7 +115,7 @@
   .kscore:focus{outline:1px solid var(--gold)}
   .kscore.scWin{background:#2ec27a;border-color:#2ec27a;color:#06301c}
   .kscore.scLose{background:#e8485f;border-color:#e8485f;color:#4a0d15}
-  .kscore.scDraw{background:#ecc94b;border-color:#ecc94b;color:#5b4a07}
+  .kscore.scDraw{background:#3b82f6;border-color:#3b82f6;color:#fff}
   .ktag{position:absolute;left:-21px;top:50%;transform:translateY(-50%);
     background:var(--red);color:#fff;font-weight:800;font-size:8.5px;letter-spacing:.3px;
     border-radius:999px;padding:2px 6px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.7)}
@@ -179,9 +179,29 @@
     font-family:'Archivo',sans-serif;font-weight:800;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
     padding:6px 14px;border-radius:5px;cursor:pointer}
   @media print{.toolbar{display:none}}
+  /* ===== color legend (top-left) ===== */
+  .legend-box{position:fixed;top:10px;left:12px;z-index:60;
+    display:inline-flex;align-items:center;gap:16px;
+    background:rgba(8,12,26,.72);border:1px solid rgba(233,194,87,.5);
+    border-radius:8px;padding:8px 15px;backdrop-filter:blur(2px)}
+  .legend-box .litem{display:flex;align-items:center;gap:7px;font-family:'Archivo',sans-serif;
+    font-weight:800;font-size:11px;letter-spacing:.5px;color:#E7EAF3;text-transform:uppercase;white-space:nowrap}
+  .legend-box .ring{width:15px;height:15px;border-radius:999px;flex:none;background:#fff}
+  .legend-box .sw{width:15px;height:15px;border-radius:4px;flex:none}
+  .legend-box .rWin{box-shadow:0 0 0 2.5px #2ec27a}
+  .legend-box .rLose{box-shadow:0 0 0 2.5px #e8485f}
+  .legend-box .rDraw{box-shadow:0 0 0 2.5px #3b82f6}
+  .legend-box .rGold{background:rgba(233,194,87,.25);box-shadow:0 0 0 2px var(--gold)}
 </style>
 </head>
 <body>
+
+<div class="legend-box">
+  <span class="litem"><span class="ring rWin"></span>Winner</span>
+  <span class="litem"><span class="ring rLose"></span>Loser</span>
+  <span class="litem"><span class="ring rDraw"></span>Draw</span>
+  <span class="litem"><span class="sw rGold"></span>Today / Upcoming</span>
+</div>
 
 <div class="toolbar">
   <button id="btnFit" class="active">Fit width</button>
@@ -205,13 +225,6 @@
           <h1>2026 WORLD CUP</h1>
           <h2>MATCH SCHEDULE</h2>
           <div class="tz">ALL TIMES UAE &nbsp;·&nbsp; GST (UTC+4)</div>
-          <div id="goldLegend" style="display:inline-flex;align-items:center;gap:8px;margin-top:6px;margin-left:10px;
-            border:1px solid rgba(233,194,87,.7);background:rgba(8,12,26,.55);padding:2px 14px;border-radius:4px;
-            font-weight:800;font-size:11px;letter-spacing:2px;color:var(--gold);vertical-align:middle">
-            <span style="width:14px;height:14px;border-radius:3px;background:rgba(233,194,87,.2);
-              box-shadow:0 0 0 2px var(--gold),0 0 8px 1px rgba(233,194,87,.6);display:inline-block"></span>
-            TODAY / UPCOMING GAMES
-          </div>
         </div>
 
         <div class="layout">
