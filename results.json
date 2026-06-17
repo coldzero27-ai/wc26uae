@@ -122,17 +122,16 @@
     "g43": "1-1",
     "g48": "3-1",
     "g49": "1-4",
-    "g54": "3-0"
+    "g54": "3-0",
+    "g55": "3-1"
   },
   "picks": {},
   "kscores": {},
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "2": "TOMORROW",
-    "86": "NEXT UP",
-    "91": "TONIGHT",
-    "92": "TOMORROW",
-    "97": "TONIGHT",
-    "98": "TONIGHT"
+    "2": "NEXT UP",
+    "3": "TOMORROW",
+    "8": "TONIGHT",
+    "9": "TONIGHT"
   }
 }
