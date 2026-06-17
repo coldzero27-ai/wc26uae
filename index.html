@@ -68,8 +68,9 @@
     overflow:hidden;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.45);transition:opacity .15s}
   .tpill.home{justify-content:flex-start}
   .tpill.away{justify-content:flex-end}
-  .tpill.win{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
-  .tpill.lose{opacity:.5}
+  .tpill.win{box-shadow:0 0 0 2.5px #2ec27a,0 1px 3px rgba(0,0,0,.45)}
+  .tpill.lose{box-shadow:0 0 0 2.5px #e8485f,0 1px 3px rgba(0,0,0,.45);opacity:.88}
+  .tpill.draw{box-shadow:0 0 0 2.5px #ecc94b,0 1px 3px rgba(0,0,0,.45)}
   .flchip{height:11px;width:16px;border-radius:2px;object-fit:cover;flex:none;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
   .gscore{height:18px;border-radius:5px;background:rgba(233,194,87,.18);border:1px solid rgba(233,194,87,.55);
     display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:800;font-size:10px;
@@ -77,6 +78,9 @@
   .gscore:empty::before{content:"–";color:rgba(233,194,87,.5)}
   .gscore:hover{background:rgba(233,194,87,.3)}
   .gscore:focus{outline:1px solid var(--gold);background:rgba(233,194,87,.34)}
+  .gscore.scWin{background:#2ec27a;border-color:#2ec27a;color:#06301c}
+  .gscore.scLose{background:#e8485f;border-color:#e8485f;color:#4a0d15}
+  .gscore.scDraw{background:#ecc94b;border-color:#ecc94b;color:#5b4a07}
 
   /* ===== bracket ===== */
   .bracket{position:relative;display:flex;flex-direction:column;min-height:0}
@@ -101,13 +105,17 @@
   .kpill .kname{flex:1;display:flex;align-items:center;gap:5px;overflow:hidden;cursor:pointer}
   .kpill:hover{border-color:var(--gold)}
   .kpill.empty{border-style:dashed;border-color:rgba(0,0,0,.35);background:#FFFFFF}
-  .kpill.win{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
-  .kpill.lose{opacity:.5}
+  .kpill.win{box-shadow:0 0 0 2.5px #2ec27a,0 1px 3px rgba(0,0,0,.45)}
+  .kpill.lose{box-shadow:0 0 0 2.5px #e8485f,0 1px 3px rgba(0,0,0,.45);opacity:.88}
+  .kpill.draw{box-shadow:0 0 0 2.5px #ecc94b,0 1px 3px rgba(0,0,0,.45)}
   .kscore{width:20px;height:15px;border-radius:4px;background:rgba(233,194,87,.18);border:1px solid rgba(233,194,87,.55);
     display:flex;align-items:center;justify-content:center;color:#8a6b16;font-weight:800;font-size:10px;cursor:text;flex:none}
   .kscore:empty::before{content:"–";color:rgba(180,150,60,.6)}
   .kscore:hover{background:rgba(233,194,87,.34)}
   .kscore:focus{outline:1px solid var(--gold)}
+  .kscore.scWin{background:#2ec27a;border-color:#2ec27a;color:#06301c}
+  .kscore.scLose{background:#e8485f;border-color:#e8485f;color:#4a0d15}
+  .kscore.scDraw{background:#ecc94b;border-color:#ecc94b;color:#5b4a07}
   .ktag{position:absolute;left:-21px;top:50%;transform:translateY(-50%);
     background:var(--red);color:#fff;font-weight:800;font-size:8.5px;letter-spacing:.3px;
     border-radius:999px;padding:2px 6px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.7)}
@@ -650,17 +658,21 @@ function applyGroupScore(row){
   const home = row.querySelector(".tpill.home");
   const away = row.querySelector(".tpill.away");
   const sc = parseScore(chip.textContent.trim());
-  home.classList.remove("win","lose"); away.classList.remove("win","lose");
+  home.classList.remove("win","lose","draw"); away.classList.remove("win","lose","draw");
+  chip.classList.remove("scWin","scLose","scDraw");
+  if(!sc) return;
   const w = winnerOf(sc);
-  if(w==='h'){ home.classList.add("win"); away.classList.add("lose"); }
-  else if(w==='a'){ away.classList.add("win"); home.classList.add("lose"); }
+  if(w==='h'){ home.classList.add("win"); away.classList.add("lose"); chip.classList.add("scWin"); }
+  else if(w==='a'){ away.classList.add("win"); home.classList.add("lose"); chip.classList.add("scLose"); }
+  else { home.classList.add("draw"); away.classList.add("draw"); chip.classList.add("scDraw"); }
 }
 function applyKnockoutScores(ko){
   const pills = ko.querySelectorAll(".kpill");
   if(pills.length < 2) return;
-  pills.forEach(p=>p.classList.remove("win","lose"));
-  const t0 = pills[0].querySelector(".kscore").textContent;
-  const t1 = pills[1].querySelector(".kscore").textContent;
+  pills.forEach(p=>{ p.classList.remove("win","lose","draw");
+    p.querySelector(".kscore").classList.remove("scWin","scLose","scDraw"); });
+  const s0 = pills[0].querySelector(".kscore"), s1 = pills[1].querySelector(".kscore");
+  const t0 = s0.textContent, t1 = s1.textContent;
   const va = (t0.match(/\d+/)||[null])[0];
   const vb = (t1.match(/\d+/)||[null])[0];
   const pa = (t0.match(/\((\d+)/)||[null,null])[1];
@@ -669,8 +681,9 @@ function applyKnockoutScores(ko){
   let w=null;
   if(+va>+vb) w=0; else if(+vb>+va) w=1;
   else if(pa!=null&&pb!=null){ if(+pa>+pb)w=0; else if(+pb>+pa)w=1; }
-  if(w===0){ pills[0].classList.add("win"); pills[1].classList.add("lose"); }
-  else if(w===1){ pills[1].classList.add("win"); pills[0].classList.add("lose"); }
+  if(w===0){ pills[0].classList.add("win"); pills[1].classList.add("lose"); s0.classList.add("scWin"); s1.classList.add("scLose"); }
+  else if(w===1){ pills[1].classList.add("win"); pills[0].classList.add("lose"); s1.classList.add("scWin"); s0.classList.add("scLose"); }
+  else { pills[0].classList.add("draw"); pills[1].classList.add("draw"); s0.classList.add("scDraw"); s1.classList.add("scDraw"); }
 }
 document.addEventListener("input", e=>{
   if(e.target.classList.contains("gscore")) applyGroupScore(e.target.closest(".gm-row"));
