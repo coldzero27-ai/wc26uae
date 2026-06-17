@@ -663,7 +663,7 @@ function applyGroupScore(row){
   if(!sc) return;
   const w = winnerOf(sc);
   if(w==='h'){ home.classList.add("win"); away.classList.add("lose"); chip.classList.add("scWin"); }
-  else if(w==='a'){ away.classList.add("win"); home.classList.add("lose"); chip.classList.add("scLose"); }
+  else if(w==='a'){ away.classList.add("win"); home.classList.add("lose"); chip.classList.add("scWin"); }
   else { home.classList.add("draw"); away.classList.add("draw"); chip.classList.add("scDraw"); }
 }
 function applyKnockoutScores(ko){
