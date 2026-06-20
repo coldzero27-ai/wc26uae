@@ -503,10 +503,11 @@ function buildGrid(filter=""){
     .map(n => `<button class="pbtn" data-name="${n}"><img class="flchip" src="${FLAGS[n]}" alt="">${n}</button>`).join("");
 }
 document.addEventListener("click", e=>{
+  if(typeof markMode !== "undefined" && markMode) return; // mark mode handles its own clicks
   if(e.target.closest(".kscore")) return; // editing score, not picking
-  const nameEl = e.target.closest(".kname");
-  if(nameEl){
-    activeSlot = nameEl.closest(".kpill");
+  const pill = e.target.closest(".kpill");
+  if(pill){
+    activeSlot = pill;
     search.value = "";
     buildGrid();
     backdrop.classList.add("open");
