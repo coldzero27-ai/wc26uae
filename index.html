@@ -120,6 +120,30 @@
 
   /* ===== center ===== */
   .center-matches{display:flex;gap:20px}
+  /* ===== featured games panel (marked group games) ===== */
+  .featured-panel{margin-top:40px;width:560px;background:rgba(8,12,26,.55);border:1.5px solid rgba(233,194,87,.6);
+    border-radius:14px;padding:11px 13px 13px;backdrop-filter:blur(2px)}
+  .featured-h{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:10px}
+  .featured-h .ttl{font-weight:900;font-size:14px;letter-spacing:3px;color:var(--gold)}
+  .featured-h .sub{font-weight:700;font-size:10px;letter-spacing:1px;color:#9fb0d6}
+  .featured-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .fcard{position:relative;background:rgba(233,194,87,.08);border-radius:10px;padding:6px 9px 7px;
+    box-shadow:0 0 0 2px var(--gold),0 0 12px 1px rgba(233,194,87,.4)}
+  .fcard .ftag{position:absolute;top:-8px;left:11px;background:var(--gold);color:#1A1404;font-size:8.5px;font-weight:800;
+    letter-spacing:.5px;padding:1px 7px;border-radius:4px;white-space:nowrap}
+  .fcard .fdate{text-align:center;color:var(--gold);font-size:9px;font-weight:700;letter-spacing:.4px;margin-bottom:4px;white-space:nowrap}
+  .fcard .frow{display:grid;grid-template-columns:1fr 32px 1fr;gap:6px;align-items:center}
+  .fcard .fpill{background:#fff;border-radius:999px;height:20px;padding:0 9px;font-size:11px;font-weight:800;color:#10141F;
+    display:flex;align-items:center;gap:6px;overflow:hidden;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.45)}
+  .fcard .fpill.r{justify-content:flex-end}
+  .fcard .fpill .flchip{height:11px;width:16px}
+  .fcard .fpill.win{box-shadow:0 0 0 2.5px #2ec27a,0 1px 3px rgba(0,0,0,.45)}
+  .fcard .fpill.lose{box-shadow:0 0 0 2.5px #e8485f,0 1px 3px rgba(0,0,0,.45);opacity:.88}
+  .fcard .fpill.draw{box-shadow:0 0 0 2.5px #3b82f6,0 1px 3px rgba(0,0,0,.45)}
+  .fcard .fsc{height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;
+    background:rgba(233,194,87,.2);border:1px solid var(--gold);color:#b8901a}
+  .fcard .fsc.scWin{background:#2ec27a;border-color:#2ec27a;color:#06301c}
+  .fcard .fsc.scDraw{background:#3b82f6;border-color:#3b82f6;color:#fff}
   .cm{width:170px}
   .final-block{margin-top:12px;text-align:center;width:222px}
   .final-word{font-weight:900;font-size:50px;letter-spacing:6px;color:#fff;line-height:1;text-shadow:0 3px 16px rgba(0,0,0,.9)}
@@ -141,19 +165,22 @@
   [contenteditable="true"]:focus{outline:1px solid var(--gold);background:rgba(233,194,87,.14)}
 
   /* ===== today's-match highlight ===== */
-  .gm.today .gm-row .tpill{box-shadow:0 0 0 2px var(--gold),0 1px 3px rgba(0,0,0,.45)}
-  .gm.today{position:relative;border-radius:10px;padding:5px 5px 6px;margin:5px -5px 6px;
-    box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
-    background:rgba(233,194,87,.08)}
-  .gm.today .gm-date{color:var(--gold);margin-bottom:3px}
+  /* group marked games do NOT expand in place — they render in the center panel.
+     keep them visually unchanged in the column (no glow, no margin, no tag). */
+  .gm.today{position:static;border-radius:0;padding:0;margin:0;box-shadow:none;background:none}
+  .gm.today .gm-row .tpill{box-shadow:0 1px 3px rgba(0,0,0,.45)}
+  .gm.today .gm-date{color:#F0F0F6;margin-bottom:1px}
+  .gm.today .today-tag{display:none}
+  .gm.today.today-pulse{animation:none}
+  /* knockout marked games keep the in-place gold glow */
   .ko.today{position:relative;border-radius:10px;padding:5px 5px 6px;margin:5px 0 6px;
     box-shadow:0 0 0 2px var(--gold),0 0 16px 2px rgba(233,194,87,.55);
     background:rgba(233,194,87,.08)}
   .ko.today .ko-when{color:var(--gold)}
-  .today-pulse{animation:todayPulse 2.4s ease-in-out infinite}
+  .ko.today-pulse{animation:todayPulse 2.4s ease-in-out infinite}
   @keyframes todayPulse{0%,100%{box-shadow:0 0 0 2px var(--gold),0 0 12px 2px rgba(233,194,87,.45)}
     50%{box-shadow:0 0 0 2px var(--gold),0 0 22px 5px rgba(233,194,87,.75)}}
-  /* corner label tag (NEXT UP / TONIGHT / TOMORROW) */
+  /* corner label tag (knockouts only now) */
   .today-tag{position:absolute;top:-9px;left:10px;z-index:3;
     background:var(--gold);color:#1A1404;font-weight:800;font-size:9px;letter-spacing:.5px;
     padding:2px 8px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.6);white-space:nowrap;text-transform:uppercase}
@@ -259,6 +286,10 @@
                     <div class="ko bronze" id="bronze">
                       <div class="ko-title" contenteditable="true" spellcheck="false">3RD PLACE — SUN, JUL 19 · 1:00 AM</div>
                     </div>
+                  </div>
+                  <div class="featured-panel" id="featuredPanel" style="display:none">
+                    <div class="featured-h"><span class="ttl">FEATURED GAMES</span><span class="sub">· TODAY / UPCOMING</span></div>
+                    <div class="featured-grid" id="featuredGrid"></div>
                   </div>
                 </div>
                 <div class="bcol" id="sfR" style="visibility:hidden"></div>
@@ -698,7 +729,7 @@ function applyKnockoutScores(ko){
   else { pills[0].classList.add("draw"); pills[1].classList.add("draw"); s0.classList.add("scDraw"); s1.classList.add("scDraw"); }
 }
 document.addEventListener("input", e=>{
-  if(e.target.classList.contains("gscore")) applyGroupScore(e.target.closest(".gm-row"));
+  if(e.target.classList.contains("gscore")){ applyGroupScore(e.target.closest(".gm-row")); renderFeatured(); }
   if(e.target.classList.contains("kscore")) applyKnockoutScores(e.target.closest(".ko"));
 });
 
@@ -795,20 +826,63 @@ function setUnitLabel(unit, label){
   unit.querySelectorAll(":scope > .today-tag").forEach(t=>t.remove());
   if(label===null){
     unit.classList.remove("today","today-pulse");
+    delete unit.dataset.mark;
+    renderFeatured();
     return;
   }
   unit.classList.add("today","today-pulse");
+  unit.dataset.mark = label;   // "" or the word
   if(label){
     const tag=document.createElement("span");
     tag.className="today-tag";
     tag.textContent=label;
     unit.insertBefore(tag, unit.firstChild);
   }
+  renderFeatured();
 }
 function currentLabel(unit){
   if(!unit.classList.contains("today")) return null;     // off
+  if(unit.dataset.mark!=null) return unit.dataset.mark;
   const t=unit.querySelector(":scope > .today-tag");
   return t ? t.textContent : "";                          // "" = plain gold
+}
+/* build the center "FEATURED GAMES" panel from all marked GROUP games */
+function renderFeatured(){
+  const grid = document.getElementById("featuredGrid");
+  const panel = document.getElementById("featuredPanel");
+  if(!grid||!panel) return;
+  const marked = [...document.querySelectorAll(".gm.today")];
+  if(marked.length===0){ panel.style.display="none"; grid.innerHTML=""; return; }
+  panel.style.display="block";
+  // order by urgency: NEXT UP -> TONIGHT -> TOMORROW -> plain gold
+  const ORDER = {"NEXT UP":0,"TONIGHT":1,"TOMORROW":2,"":3};
+  marked.sort((a,b)=>{
+    const la = a.dataset.mark||"", lb = b.dataset.mark||"";
+    const oa = (ORDER[la]!=null?ORDER[la]:9), ob = (ORDER[lb]!=null?ORDER[lb]:9);
+    return oa - ob;
+  });
+  grid.innerHTML = marked.map(gm=>{
+    const label = gm.dataset.mark || "";
+    const date = (gm.querySelector(".gm-date")||{}).textContent || "";
+    const home = gm.querySelector(".tpill.home");
+    const away = gm.querySelector(".tpill.away");
+    const chip = gm.querySelector(".gscore");
+    const homeHTML = home ? home.innerHTML : "";
+    const awayHTML = away ? away.innerHTML : "";
+    const score = chip ? chip.textContent.trim() : "";
+    // mirror win/lose/draw ring state
+    const hCls = home.classList.contains("win")?"win":home.classList.contains("lose")?"lose":home.classList.contains("draw")?"draw":"";
+    const aCls = away.classList.contains("win")?"win":away.classList.contains("lose")?"lose":away.classList.contains("draw")?"draw":"";
+    const scCls = chip.classList.contains("scWin")?"scWin":chip.classList.contains("scDraw")?"scDraw":"";
+    const tag = label ? `<span class="ftag">${label}</span>` : "";
+    return `<div class="fcard">${tag}
+      <div class="fdate">${date}</div>
+      <div class="frow">
+        <div class="fpill ${hCls}">${homeHTML}</div>
+        <div class="fsc ${scCls}">${score||"–"}</div>
+        <div class="fpill r ${aCls}">${awayHTML}</div>
+      </div></div>`;
+  }).join("");
 }
 function cycleUnit(unit){
   const cur = currentLabel(unit);
