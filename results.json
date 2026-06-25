@@ -112,10 +112,14 @@
     "g7": "1-1",
     "g8": "4-1",
     "g9": "6-0",
+    "g10": "2-1",
+    "g11": "3-1",
     "g12": "1-1",
     "g13": "0-1",
     "g14": "0-1",
     "g15": "3-0",
+    "g16": "4-2",
+    "g17": "0-3",
     "g18": "4-1",
     "g19": "2-0",
     "g20": "2-0",
@@ -154,19 +158,23 @@
     "g69": "0-1"
   },
   "picks": {
+    "p1": "CANADA",
     "p2": "GERMANY",
+    "p5": "MOROCCO",
+    "p6": "BRAZIL",
     "p12": "MEXICO",
     "p48": "USA",
+    "p56": "SWITZERLAND",
     "p58": "ARGENTINA"
   },
   "kscores": {},
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "4": "TOMORROW",
-    "5": "TOMORROW",
-    "10": "NEXT UP",
-    "11": "NEXT UP",
-    "16": "TONIGHT",
-    "17": "TONIGHT"
+    "22": "TOMORROW",
+    "23": "TOMORROW",
+    "28": "NEXT UP",
+    "29": "NEXT UP",
+    "34": "TONIGHT",
+    "35": "TONIGHT"
   }
 }
