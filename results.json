@@ -126,6 +126,8 @@
     "g19": "2-0",
     "g20": "2-0",
     "g21": "0-1",
+    "g22": "3-2",
+    "g23": "0-0",
     "g24": "7-1",
     "g25": "1-0",
     "g26": "2-1",
@@ -174,8 +176,10 @@
     "p10": "IVORY COAST",
     "p12": "MEXICO",
     "p48": "USA",
+    "p49": "BOSNIA",
     "p56": "SWITZERLAND",
-    "p58": "ARGENTINA"
+    "p58": "ARGENTINA",
+    "p62": "AUSTRALIA"
   },
   "kscores": {},
   "finalDate": "SUN, JULY 19 — 11:00 PM",
