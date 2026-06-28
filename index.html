@@ -496,7 +496,7 @@ function slot(tag){
 }
 function koCard(m){
   return `<div class="ko" id="m${m[0]}">
-    <div class="ko-title">MATCH ${m[0]}</div>
+    <div class="ko-title" contenteditable="true" spellcheck="false">MATCH ${m[0]}</div>
     <div class="ko-when" contenteditable="true" spellcheck="false">${m[1]} · ${m[2]}</div>
     ${slot(m[3])}${slot(m[4])}
   </div>`;
@@ -739,6 +739,7 @@ function collectState(){
   const st = { dates:{}, gscores:{}, picks:{}, kscores:{} };
   document.querySelectorAll(".gm-date").forEach((el,i)=> st.dates["d"+i]=el.textContent);
   document.querySelectorAll(".ko-when").forEach((el,i)=> st.dates["w"+i]=el.textContent);
+  document.querySelectorAll(".ko-title").forEach((el,i)=> st.dates["t"+i]=el.textContent);
   document.querySelectorAll(".gm-row").forEach((row,i)=>{
     const s=row.querySelector(".gscore"); if(s&&s.textContent.trim()) st.gscores["g"+i]=s.textContent.trim();
   });
@@ -761,6 +762,7 @@ function applyState(st){
   if(st.dates){
     document.querySelectorAll(".gm-date").forEach((el,i)=>{ if(st.dates["d"+i]!=null) el.textContent=st.dates["d"+i]; });
     document.querySelectorAll(".ko-when").forEach((el,i)=>{ if(st.dates["w"+i]!=null) el.textContent=st.dates["w"+i]; });
+    document.querySelectorAll(".ko-title").forEach((el,i)=>{ if(st.dates["t"+i]!=null) el.textContent=st.dates["t"+i]; });
   }
   if(st.gscores) document.querySelectorAll(".gm-row").forEach((row,i)=>{
     const v=st.gscores["g"+i]; if(v!=null){ const s=row.querySelector(".gscore"); s.textContent=v; applyGroupScore(row);} });
