@@ -242,9 +242,14 @@
     "p62": "COLOMBIA",
     "p63": "GHANA"
   },
-  "kscores": {},
+  "kscores": {
+    "k0": "0",
+    "k1": "1"
+  },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "36": "TONIGHT"
+    "37": "TOMORROW",
+    "38": "TONIGHT",
+    "59": "NEXT UP"
   }
 }
