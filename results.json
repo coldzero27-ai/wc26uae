@@ -226,6 +226,7 @@
     "p14": "BELGIUM",
     "p15": "SENEGAL",
     "p16": "CANADA",
+    "p18": "PARAGUAY",
     "p40": "BRAZIL",
     "p48": "BRAZIL",
     "p49": "JAPAN",
@@ -247,12 +248,15 @@
   "kscores": {
     "k0": "0",
     "k1": "1",
+    "k4": "1(3)",
+    "k5": "1(4)",
     "k48": "2",
     "k49": "1"
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "37": "TONIGHT",
-    "38": "NEXT UP"
+    "39": "TONIGHT",
+    "60": "NEXT UP",
+    "61": "TOMORROW"
   }
 }
