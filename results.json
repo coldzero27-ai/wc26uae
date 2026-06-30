@@ -229,6 +229,7 @@
     "p17": "MOROCCO",
     "p18": "PARAGUAY",
     "p40": "BRAZIL",
+    "p41": "NORWAY",
     "p48": "BRAZIL",
     "p49": "JAPAN",
     "p50": "IVORY COAST",
@@ -254,12 +255,13 @@
     "k4": "1(3)",
     "k5": "1(4)",
     "k48": "2",
-    "k49": "1"
+    "k49": "1",
+    "k50": "1",
+    "k51": "2"
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "39": "TONIGHT",
-    "60": "NEXT UP",
+    "39": "NEXT UP",
     "61": "TOMORROW"
   }
 }
