@@ -229,6 +229,7 @@
     "p17": "MOROCCO",
     "p18": "PARAGUAY",
     "p19": "FRANCE",
+    "p23": "BELGIUM",
     "p40": "BRAZIL",
     "p41": "NORWAY",
     "p42": "MEXICO",
@@ -259,6 +260,8 @@
     "k5": "1(4)",
     "k6": "3",
     "k7": "0",
+    "k14": "3",
+    "k15": "2",
     "k48": "2",
     "k49": "1",
     "k50": "1",
@@ -270,7 +273,8 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "42": "TOMORROW",
-    "43": "NEXT UP"
+    "40": "TONIGHT",
+    "41": "NEXT UP",
+    "65": "TOMORROW"
   }
 }
