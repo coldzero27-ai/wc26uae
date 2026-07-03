@@ -237,6 +237,7 @@
     "p41": "NORWAY",
     "p42": "MEXICO",
     "p43": "ENGLAND",
+    "p46": "SWITZERLAND",
     "p48": "BRAZIL",
     "p49": "JAPAN",
     "p50": "IVORY COAST",
@@ -278,7 +279,9 @@
     "k52": "2",
     "k53": "0",
     "k54": "2",
-    "k55": "1"
+    "k55": "1",
+    "k60": "2",
+    "k61": "0"
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
