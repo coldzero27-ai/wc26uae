@@ -229,6 +229,8 @@
     "p17": "MOROCCO",
     "p18": "PARAGUAY",
     "p19": "FRANCE",
+    "p20": "PORTUGAL",
+    "p21": "SPAIN",
     "p22": "USA",
     "p23": "BELGIUM",
     "p40": "BRAZIL",
@@ -261,6 +263,10 @@
     "k5": "1(4)",
     "k6": "3",
     "k7": "0",
+    "k8": "2",
+    "k9": "1",
+    "k10": "3",
+    "k11": "0",
     "k12": "2",
     "k13": "0",
     "k14": "3",
@@ -276,8 +282,9 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "40": "TONIGHT",
-    "41": "NEXT UP",
-    "65": "TOMORROW"
+    "63": "TONIGHT",
+    "64": "TONIGHT",
+    "65": "NEXT UP",
+    "66": "TOMORROW"
   }
 }
