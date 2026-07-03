@@ -80,8 +80,8 @@
     "w5": "THU, JUL 2 · 11:00 PM",
     "w6": "THU, JUL 2 · 4:00 AM",
     "w7": "THU, JUL 2 · 12:00 AM",
-    "w8": "MON, JUL 4 · 9:00 PM",
-    "w9": "TUE, JUL 5 · 1:00 AM",
+    "w8": "Sat, JUL 4 · 9:00 PM",
+    "w9": "sun, JUL 5 · 1:00 AM",
     "w10": "MON, JUL 6 · 11:00 PM",
     "w11": "TuE, JUL 7 · 4:00 AM",
     "w12": "FRI, JUL 10 · 12:00 AM",
@@ -283,8 +283,7 @@
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
     "63": "TONIGHT",
-    "64": "TONIGHT",
-    "65": "NEXT UP",
+    "64": "NEXT UP",
     "66": "TOMORROW"
   }
 }
