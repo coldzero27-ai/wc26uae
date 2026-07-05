@@ -233,6 +233,8 @@
     "p21": "SPAIN",
     "p22": "USA",
     "p23": "BELGIUM",
+    "p24": "MOROCCO",
+    "p25": "FRANCE",
     "p40": "BRAZIL",
     "p41": "NORWAY",
     "p42": "MEXICO",
@@ -275,6 +277,10 @@
     "k13": "0",
     "k14": "3",
     "k15": "2",
+    "k16": "0",
+    "k17": "3",
+    "k18": "0",
+    "k19": "1",
     "k48": "2",
     "k49": "1",
     "k50": "1",
@@ -294,7 +300,7 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "44": "NEXT UP",
-    "45": "TONIGHT"
+    "55": "NEXT UP",
+    "56": "TOMORROW"
   }
 }
