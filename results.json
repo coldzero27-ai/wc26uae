@@ -235,6 +235,8 @@
     "p23": "BELGIUM",
     "p24": "MOROCCO",
     "p25": "FRANCE",
+    "p36": "NORWAY",
+    "p37": "ENGLAND",
     "p40": "BRAZIL",
     "p41": "NORWAY",
     "p42": "MEXICO",
@@ -281,6 +283,10 @@
     "k17": "3",
     "k18": "0",
     "k19": "1",
+    "k40": "1",
+    "k41": "2",
+    "k42": "2",
+    "k43": "3",
     "k48": "2",
     "k49": "1",
     "k50": "1",
@@ -300,7 +306,7 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "55": "NEXT UP",
-    "56": "TOMORROW"
+    "46": "NEXT UP",
+    "47": "TOMORROW"
   }
 }
