@@ -239,6 +239,8 @@
     "p27": "BELGIUM",
     "p28": "FRANCE",
     "p29": "SPAIN",
+    "p30": "ENGLAND",
+    "p31": "ARGENTINA",
     "p36": "NORWAY",
     "p37": "ENGLAND",
     "p38": "ARGENTINA",
@@ -297,6 +299,10 @@
     "k25": "2",
     "k26": "2",
     "k27": "1",
+    "k36": "1",
+    "k37": "2",
+    "k38": "3",
+    "k39": "1",
     "k40": "1",
     "k41": "2",
     "k42": "2",
@@ -324,6 +330,6 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "53": "NEXT UP"
+    "50": "NEXT UP"
   }
 }
