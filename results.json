@@ -242,7 +242,9 @@
     "p30": "ENGLAND",
     "p31": "ARGENTINA",
     "p32": "SPAIN",
+    "p33": "ARGENTINA",
     "p34": "FRANCE",
+    "p35": "ENGLAND",
     "p36": "NORWAY",
     "p37": "ENGLAND",
     "p38": "ARGENTINA",
@@ -303,6 +305,8 @@
     "k27": "1",
     "k28": "0",
     "k29": "2",
+    "k30": "1",
+    "k31": "2",
     "k36": "1",
     "k37": "2",
     "k38": "3",
@@ -334,6 +338,6 @@
   },
   "finalDate": "SUN, JULY 19 — 11:00 PM",
   "marked": {
-    "51": "NEXT UP"
+    "53": "NEXT UP"
   }
 }
